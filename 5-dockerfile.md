@@ -57,13 +57,16 @@ No olvides verificar en qué directorio se encuentra el archivo Dockerfile
 ```
 
 **¿Cuántos pasos se han ejecutado?**
-# RESPONDER 
+Se ejecutaron 5 pasos.Cuando se estaba construyendo la imagen salió un error en RUN yum update -y porque los repositorios de centos:7 ya no están disponibles  y para solucionarlo se agregó una línea con sed después del FROM, que reemplaza mirror.centos.org por vault.centos.org el archivo histórico de CentOS, y así el build valió.
 
 ### Inspeccionar la imagen creada
-# COMPLETAR CON UNA CAPTURA
+<img width="775" height="961" alt="image" src="https://github.com/user-attachments/assets/d64f8de4-f10d-4077-acc6-77f3efed11b0" />
+
 
 **Modificar el archivo index.html para incluir su nombre y luego crear una nueva versión de la imagen anterior**
-**¿Cuántos pasos se han ejecutado? ¿Observa algo diferente en la creación de la imagen**
+**¿Cuántos pasos se han ejecutado? ¿Observa algo diferente en la creación de la imagen?**
+
+Los mismos 5 pasos, pero la construcción termina casi de forma instantánea. La diferencia principal es que en los primeros pasos (FROM y RUN apt-get update...) Docker muestra el mensaje Using cache en lugar de volver a descargar e instalar Apache desde cero.
 
 ## Mecanismo de caché
 Docker usa un mecanismo de caché cuando crea imágenes para acelerar el proceso de construcción y evitar la repetición de pasos que no han cambiado. Cada instrucción en un Dockerfile crea una capa en la imagen final. Docker intenta reutilizar las capas de una construcción anterior si no han cambiado, lo que reduce significativamente el tiempo de construcción.
@@ -75,14 +78,15 @@ Docker usa un mecanismo de caché cuando crea imágenes para acelerar el proceso
 
 ### Crear un contenedor a partir de las imagen creada, mapear todos los puertos
 ```
-
+docker run -d -P --name servidor-web mi-apache:2.0
 ```
 
 ### ¿Con que puerto host se está realizando el mapeo?
-# COMPLETAR CON LA RESPUESTA
+Docker toma el puerto 80 del contenedor  y lo mapea automáticamente a un puerto aleatorio de rango alto en el host el puerto 32768:80
 
 **¿Qué es una imagen huérfana?**
-# COMPLETAR CON LA RESPUESTA
+
+Es una imagen sin nombre ni etiqueta, que aparece como <none> en docker images.
 
 ### Identificar imágenes huérfanas
 ```
